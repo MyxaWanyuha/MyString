@@ -5,6 +5,7 @@ void print(const sbr::string& s)
 {
     std::cout << s.c_str() << ' ' << s.length() << '\n';
 }
+
 int main()
 {
     sbr::string s("12");

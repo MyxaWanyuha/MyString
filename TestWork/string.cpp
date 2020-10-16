@@ -1,4 +1,5 @@
-#include <algorithm>
+#include <cstring>
+#include <stdexcept>
 #include "string.h"
 
 namespace sbr
@@ -38,7 +39,7 @@ namespace sbr
 	const char& string::operator[](std::size_t position) const
 	{
 		if (position >= clen)
-			throw std::exception("Out of bounds of an array");
+			throw std::out_of_range("Out of bounds of an array");
 		return str[position];
 	}
 
