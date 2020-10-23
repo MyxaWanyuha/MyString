@@ -49,6 +49,12 @@ namespace sbr
 		return const_cast<string&>(*this)[position];
 	}
 
+	string string::operator+=(const string& rs)
+	{
+		*this = *this + rs;
+		return *this;
+	}
+
 	bool string::operator==(const string& rs)
 	{
 		if (-1 == hashCRC32)

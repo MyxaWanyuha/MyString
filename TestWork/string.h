@@ -30,7 +30,7 @@ namespace sbr
 		friend std::ostream& operator<<(std::ostream& os, const string& s);
 
 		friend string operator+(const string& ls, const string& rs);
-		string operator+=(const string& rs) { return *this + rs; }
+		string operator+=(const string& rs);
 
 		bool operator==(const string& rs);
 		bool operator!=(const string& rs) { return !(*this == rs); };
