@@ -30,5 +30,8 @@ int main()
     std::cout << (s < s2)  << '\n';
     std::cout << (s <= s2) << '\n';
 
+    std::cout << s << '\n';
+    std::cout << s2 << '\n';
+
     return 0;
 }
