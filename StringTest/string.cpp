@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "string.h"
 #include <stdexcept>
 #include "cstrfunctions.h"
