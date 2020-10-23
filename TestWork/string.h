@@ -31,9 +31,17 @@ namespace sbr
 
 		friend string operator+(const string& ls, const string& rs);
 
+		bool operator==(const string& rs);
+		bool operator!=(const string& rs) { return !(*this == rs); };
+		bool operator>=(const string& rs) { return  (*this == rs) || (*this > rs); }
+		bool operator>(const string& rs);
+		bool operator<=(const string& rs) { return  (*this == rs) || (*this < rs); }
+		bool operator<(const string& rs);
+
 	private:
 		void copy(const char* s, std::size_t len);
 		char* str;	//c-string
 		std::size_t clen;//str + \0
+		mutable uint_least32_t hashCRC32 = -1;
 	};
 }

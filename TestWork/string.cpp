@@ -1,6 +1,7 @@
 #include <cstring>
 #include <stdexcept>
 #include "string.h"
+#include "CRC32.h"
 
 namespace sbr
 {
@@ -46,6 +47,29 @@ namespace sbr
 	char& string::operator[](std::size_t position)
 	{
 		return const_cast<string&>(*this)[position];
+	}
+
+	bool string::operator==(const string& rs)
+	{
+		if (-1 == hashCRC32)
+			hashCRC32 = Crc32(reinterpret_cast<unsigned char*>(str), clen);
+		if (-1 == rs.hashCRC32)
+			rs.hashCRC32 = Crc32(reinterpret_cast<unsigned char*>(rs.str), rs.clen);
+		return hashCRC32 == rs.hashCRC32;
+	}
+
+	bool string::operator>(const string& rs)
+	{
+		if (clen > rs.clen) 
+			return true;
+		return strcmp(str, rs.str) > 0;
+	}
+
+	bool string::operator<(const string& rs)
+	{
+		if (clen < rs.clen)
+			return true;
+		return strcmp(str, rs.str) < 0;
 	}
 
 	void string::copy(const char* s, size_t len)
