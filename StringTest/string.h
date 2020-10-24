@@ -6,15 +6,17 @@ namespace sbr
 	class string
 	{
 	public:
-		string() :str(new char[1]{ '\0' }), clen(1) {}
-
+		string();
+		
 		string(const string& s);
 
 		string(string&& s) noexcept;
 
 		string(const char* cs);
 
-		~string() { delete[] str; };
+		string(const char c);
+
+		~string() { free(str); };
 
 		const char* c_str() const noexcept { return str; };
 
@@ -41,9 +43,12 @@ namespace sbr
 
 	private:
 		void copy(const char* s, std::size_t len);
-		char* str;	//c-string
-		std::size_t clen;//str + \0
-		mutable uint_least32_t hashCRC32 = -1;
+		static char* new_realloc(void* mem, std::size_t size);
+
+		char* str = nullptr; //c-string
+		std::size_t clen = 0;//string length + \0
+		static const uint8_t hashNotValid = 0;
+		mutable uint_least32_t hashCRC32 = hashNotValid;
 	};
 }
 

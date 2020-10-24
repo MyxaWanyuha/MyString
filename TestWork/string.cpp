@@ -5,6 +5,12 @@
 
 namespace sbr
 {
+	string::string() : clen(1)
+	{
+		str = new_realloc(nullptr, 1);
+		str[0] = '\0';
+	}
+
 	string::string(const string& s)
 	{
 		copy(s.c_str(), s.clen);
@@ -22,19 +28,28 @@ namespace sbr
 		copy(cs, sbr::strlen(cs) + 1);
 	}
 
+	string::string(const char c)
+	{
+		str = new_realloc(str, 2);
+		str[0] = c;
+		str[1] = '\0';
+		clen = 2;
+	}
+
 	string& string::operator=(const string& s)
 	{
 		hashCRC32 = s.hashCRC32;
-		delete[] str;
+		std::free(str);
 		copy(s.c_str(), s.clen);
 		return *this;
 	}
 
 	string& string::operator=(string&& s) noexcept
 	{
-		hashCRC32 = s.hashCRC32;
+		std::free(str);
 		str = s.str;
 		clen = s.clen;
+		hashCRC32 = s.hashCRC32;
 		s.str = nullptr;
 		return *this;
 	}
@@ -53,16 +68,19 @@ namespace sbr
 
 	string string::operator+=(const string& rs)
 	{
-		hashCRC32 = -1;
-		*this = *this + rs;
+		hashCRC32 = string::hashNotValid;
+		auto newLen = clen + rs.length();
+		str = new_realloc(str, newLen);
+		clen = newLen;
+		sbr::strcat(str, rs.str);
 		return *this;
 	}
 
 	bool operator==(const sbr::string& ls, const sbr::string& rs)
 	{
-		if (-1 == ls.hashCRC32)
+		if (string::hashNotValid == ls.hashCRC32)
 			ls.hashCRC32 = Crc32(reinterpret_cast<unsigned char*>(ls.str), ls.clen);
-		if (-1 == rs.hashCRC32)
+		if (string::hashNotValid == rs.hashCRC32)
 			rs.hashCRC32 = Crc32(reinterpret_cast<unsigned char*>(rs.str), rs.clen);
 		return ls.hashCRC32 == rs.hashCRC32;
 	}
@@ -83,9 +101,28 @@ namespace sbr
 
 	void string::copy(const char* s, size_t len)
 	{
-		str = new char[len];
+		str = new_realloc(str, len);
 		clen = len;
 		sbr::strcpy(str, s);
+	}
+
+	char* string::new_realloc(void* mem, std::size_t size)
+	{
+		if (size == 0)
+			size = 1;
+		char* res = nullptr;
+		while (true)
+		{
+			if (res = static_cast<char*>(std::realloc(mem, size)))
+				return res;
+
+			std::new_handler globalHandler = std::set_new_handler(0);
+			std::set_new_handler(globalHandler);
+			if (globalHandler)
+				(*globalHandler)();
+			else
+				throw std::bad_alloc();
+		}
 	}
 
 	std::ostream& operator<<(std::ostream& os, const sbr::string& s)
@@ -96,11 +133,8 @@ namespace sbr
 
 	sbr::string operator+(const sbr::string& ls, const sbr::string& rs)
 	{
-		auto nlen = ls.length() + rs.length() + 1;
-		auto nstr = new char[nlen];
-		nstr[0] = '\0';
-		sbr::strcat(nstr, ls.str);
-		sbr::strcat(nstr, rs.str);
-		return string(nstr);
+		sbr::string res(ls);
+		res += rs;
+		return string(std::move(res));
 	}
 }

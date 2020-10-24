@@ -8,6 +8,24 @@ TEST(Constructors, DefaultConstructors)
 	EXPECT_TRUE(s == "");
 }
 
+TEST(Constructors, CharConstructor)
+{
+	const char cc = 'c';
+	char c = 'c';
+	sbr::string s(c);
+	sbr::string sc(cc);
+	sbr::string s2('s');
+
+	EXPECT_EQ(s.length(), 1);
+	EXPECT_TRUE(s == "c");
+
+	EXPECT_EQ(sc.length(), 1);
+	EXPECT_TRUE(sc == "c");
+
+	EXPECT_EQ(s2.length(), 1);
+	EXPECT_TRUE(s2 == "s");
+}
+
 TEST(Constructors, CharPtrConstructor)
 {
 	const char cs[] = "Just a string";
@@ -48,6 +66,15 @@ TEST(Operators, OperatorPlus)
 	EXPECT_TRUE(s3 == cs);
 }
 
+TEST(Operators, OperatorPlusAssignChar)
+{
+	sbr::string s('s');
+	s += 'a';
+
+	EXPECT_EQ(s.length(), 2);
+	EXPECT_TRUE(s == "sa");
+}
+
 TEST(Operators, OperatorPlusAssign)
 {
 	sbr::string s1("string1");
@@ -79,7 +106,7 @@ TEST(Operators, OperatorMoveAssignment)
 	EXPECT_TRUE(s2 == cs);
 }
 
-TEST(OperatorsCompare, Equal)
+TEST(OperatorsComparers, Equal)
 {
 	const char cs[] = "Just a string";
 	sbr::string s1{ cs };
@@ -90,7 +117,7 @@ TEST(OperatorsCompare, Equal)
 	EXPECT_FALSE(cs == s1);
 }
 
-TEST(OperatorsCompare, NotEqual)
+TEST(OperatorsComparers, NotEqual)
 {
 	const char cs[] = "Just a string";
 	sbr::string s1{ cs };
@@ -101,7 +128,7 @@ TEST(OperatorsCompare, NotEqual)
 	EXPECT_TRUE(cs != s1);
 }
 
-TEST(OperatorsCompare, More)
+TEST(OperatorsComparers, More)
 {
 	const char cs[] = "Just a string";
 	sbr::string s1{ cs };
@@ -110,7 +137,7 @@ TEST(OperatorsCompare, More)
 	EXPECT_FALSE(cs > s1);
 }
 
-TEST(OperatorsCompare, MoreEquals)
+TEST(OperatorsComparers, MoreEquals)
 {
 	const char cs[] = "Just a string";
 	sbr::string s1{ cs };
@@ -122,7 +149,7 @@ TEST(OperatorsCompare, MoreEquals)
 	EXPECT_FALSE(cs >= s1);
 }
 
-TEST(OperatorsCompare, Less)
+TEST(OperatorsComparers, Less)
 {
 	const char cs[] = "Just a string";
 	sbr::string s1{ cs };
@@ -131,7 +158,7 @@ TEST(OperatorsCompare, Less)
 	EXPECT_FALSE(s1 < cs);
 }
 
-TEST(OperatorsCompare, LessEquals)
+TEST(OperatorsComparers, LessEquals)
 {
 	const char cs[] = "Just a string";
 	sbr::string s1{ cs };
