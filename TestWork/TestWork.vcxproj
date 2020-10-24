@@ -143,7 +143,6 @@
     <ClCompile Include="TestWork.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CRC32.h" />
     <ClInclude Include="cstrfunctions.h" />
     <ClInclude Include="string.h" />
   </ItemGroup>

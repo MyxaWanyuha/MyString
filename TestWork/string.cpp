@@ -1,7 +1,6 @@
 #include "string.h"
 #include <stdexcept>
 #include "cstrfunctions.h"
-#include "CRC32.h"
 
 namespace sbr
 {
@@ -38,7 +37,6 @@ namespace sbr
 
 	string& string::operator=(const string& s)
 	{
-		hashCRC32 = s.hashCRC32;
 		std::free(str);
 		copy(s.c_str(), s.clen);
 		return *this;
@@ -49,7 +47,6 @@ namespace sbr
 		std::free(str);
 		str = s.str;
 		clen = s.clen;
-		hashCRC32 = s.hashCRC32;
 		s.str = nullptr;
 		return *this;
 	}
@@ -68,7 +65,6 @@ namespace sbr
 
 	string string::operator+=(const string& rs)
 	{
-		hashCRC32 = string::hashNotValid;
 		auto newLen = clen + rs.length();
 		str = new_realloc(str, newLen);
 		clen = newLen;
@@ -78,11 +74,9 @@ namespace sbr
 
 	bool operator==(const sbr::string& ls, const sbr::string& rs)
 	{
-		if (string::hashNotValid == ls.hashCRC32)
-			ls.hashCRC32 = Crc32(reinterpret_cast<unsigned char*>(ls.str), ls.clen);
-		if (string::hashNotValid == rs.hashCRC32)
-			rs.hashCRC32 = Crc32(reinterpret_cast<unsigned char*>(rs.str), rs.clen);
-		return ls.hashCRC32 == rs.hashCRC32;
+		if (ls.clen != rs.clen)
+			return false;
+		return sbr::strcmp(ls.str, rs.str) == 0;
 	}
 
 	bool operator>(const sbr::string& ls, const sbr::string& rs)

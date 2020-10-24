@@ -47,8 +47,6 @@ namespace sbr
 
 		char* str = nullptr; //c-string
 		std::size_t clen = 0;//string length + \0
-		static const uint8_t hashNotValid = 0;
-		mutable uint_least32_t hashCRC32 = hashNotValid;
 	};
 }
 
