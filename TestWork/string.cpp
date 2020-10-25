@@ -37,13 +37,18 @@ namespace sbr
 
 	string& string::operator=(const string& s)
 	{
+		if (this == &s)
+			return *this;
 		std::free(str);
+		str = nullptr;
 		copy(s.c_str(), s.clen);
 		return *this;
 	}
 
 	string& string::operator=(string&& s) noexcept
 	{
+		if (this == &s)
+			return *this;
 		std::free(str);
 		str = s.str;
 		clen = s.clen;

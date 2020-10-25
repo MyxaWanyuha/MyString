@@ -39,7 +39,6 @@ void MemoryLeakTest()
 			sbr::string s1("string1");
 			sbr::string s2("string2");
 			sbr::string s3{ s1 + s2 };
-			const char cs[] = "string1string2";
 		}
 
 		{
@@ -70,6 +69,15 @@ void MemoryLeakTest()
 			const char cs[] = "Just a string";
 			sbr::string s1{ cs };
 			s1 += "s";
+		}
+
+		{
+			const char cs[] = "Just a string";
+			sbr::string s1{ cs };
+			sbr::string s2 = s1;
+			auto s3 = s1 + s2;
+			s3 += s3 + s1 + s2;
+			s1 = s2 = s3 = "testing";
 		}
 	}
 }

@@ -64,6 +64,21 @@ TEST(Operators, OperatorPlus)
 	EXPECT_EQ(s3.length(), strlen(cs));
 	EXPECT_EQ(strlen(s3.c_str()), strlen(cs));
 	EXPECT_TRUE(s3 == cs);
+
+	s1 = "test1";
+	s2 = "test2";
+	const char cs2[] = "test1test2";
+	s3 = s1 + s2;
+
+	EXPECT_EQ(s3.length(), strlen(cs2));
+	EXPECT_EQ(strlen(s3.c_str()), strlen(cs2));
+	EXPECT_TRUE(s3 == cs2);
+
+	s3 += s3 + s1 + s2;
+	const char cs3[] = "test1test2test1test2test1test2";
+	EXPECT_EQ(s3.length(), strlen(cs3));
+	EXPECT_EQ(strlen(s3.c_str()), strlen(cs3));
+	EXPECT_TRUE(s3 == cs3);
 }
 
 TEST(Operators, OperatorPlusAssignChar)
@@ -94,6 +109,23 @@ TEST(Operators, OperatorAssignment)
 	EXPECT_EQ(s2.length(), strlen(cs));
 	EXPECT_EQ(strlen(s2.c_str()), strlen(cs));
 	EXPECT_TRUE(s2 == cs);
+
+
+	sbr::string s3{ "" };
+	const char cs2[] = "testing";
+	s1 = s2 = s3 = cs2;
+
+	EXPECT_EQ(s1.length(), strlen(cs2));
+	EXPECT_EQ(strlen(s1.c_str()), strlen(cs2));
+	EXPECT_TRUE(s1 == cs2);
+
+	EXPECT_EQ(s1.length(), s2.length());
+	EXPECT_EQ(strlen(s1.c_str()), strlen(s2.c_str()));
+	EXPECT_TRUE(s1 == s2);
+
+	EXPECT_EQ(s2.length(), s3.length());
+	EXPECT_EQ(strlen(s2.c_str()), strlen(s3.c_str()));
+	EXPECT_TRUE(s2 == s3);
 }
 
 TEST(Operators, OperatorMoveAssignment)
@@ -104,6 +136,20 @@ TEST(Operators, OperatorMoveAssignment)
 	EXPECT_EQ(s2.length(), strlen(cs));
 	EXPECT_EQ(strlen(s2.c_str()), strlen(cs));
 	EXPECT_TRUE(s2 == cs);
+}
+
+TEST(Operators, SelfAssigment)
+{
+	const char cs[] = "Just a string";
+	sbr::string s{ cs };
+	s = std::move(s);
+	EXPECT_EQ(s.length(), strlen(cs));
+	EXPECT_EQ(strlen(s.c_str()), strlen(cs));
+	EXPECT_TRUE(s == cs);
+	s = s;
+	EXPECT_EQ(s.length(), strlen(cs));
+	EXPECT_EQ(strlen(s.c_str()), strlen(cs));
+	EXPECT_TRUE(s == cs);
 }
 
 TEST(OperatorsComparers, Equal)
