@@ -6,6 +6,7 @@ namespace sbr
 	class string
 	{
 	public:
+		//Create "" string
 		string();
 		
 		string(const string& s);
@@ -16,11 +17,13 @@ namespace sbr
 
 		string(const char c);
 
-		~string() { free(str); };
+		~string() { free(m_str); };
 
-		const char* c_str() const noexcept { return str; };
+		const char* c_str() const noexcept { return m_str; };
 
-		int length() const noexcept { return clen - 1; }
+		int length() const noexcept { return m_clen - 1; }
+
+		string operator+=(const string& rs);
 
 		string& operator=(const string& s);
 
@@ -29,24 +32,25 @@ namespace sbr
 		const char& operator[](std::size_t position) const;
 		char& operator[](std::size_t position);
 
-		friend std::ostream& operator<<(std::ostream& os, const string& s);
-
-		friend string operator+(const string& ls, const string& rs);
-		string operator+=(const string& rs);
-
-		friend bool operator==(const string& ls, const string& rs);
-		friend bool operator!=(const string& ls, const string& rs) { return !(ls == rs); };
-		friend bool operator>=(const string& ls, const string& rs) { return  (ls == rs) || (ls > rs); }
-		friend bool operator>(const string& ls, const string& rs);
-		friend bool operator<=(const string& ls, const string& rs) { return  (ls == rs) || (ls < rs); }
-		friend bool operator<(const string& ls, const string& rs);
-
 	private:
-		void copy(const char* s, std::size_t len);
+		//Create new buffer and copy s to buffer
+		void reallocAndCopy(const char* s, std::size_t len);
 		static char* new_realloc(void* mem, std::size_t size);
-
-		char* str = nullptr; //c-string
-		std::size_t clen = 0;//string length + \0
+		
+		//c-string
+		char* m_str = nullptr;
+		//string length + 0 terminator
+		std::size_t m_clen = 0;
 	};
+	
+	std::ostream& operator<<(std::ostream& os, const string& s);
+	string operator+(const string& ls, const string& rs);
+	extern bool operator==(const sbr::string& ls, const sbr::string& rs);
+	extern bool operator>(const sbr::string& ls, const sbr::string& rs);
+	extern bool operator<(const sbr::string& ls, const sbr::string& rs);
+	extern bool operator!=(const sbr::string& ls, const sbr::string& rs);
+	extern bool operator>=(const sbr::string& ls, const sbr::string& rs);
+	extern bool operator<=(const sbr::string& ls, const sbr::string& rs);
 }
+
 

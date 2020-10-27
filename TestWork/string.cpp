@@ -4,44 +4,44 @@
 
 namespace sbr
 {
-	string::string() : clen(1)
+	string::string() : m_clen(1)
 	{
-		str = new_realloc(nullptr, 1);
-		str[0] = '\0';
+		m_str = new_realloc(nullptr, 1);
+		m_str[0] = '\0';
 	}
 
 	string::string(const string& s)
 	{
-		copy(s.c_str(), s.clen);
+		reallocAndCopy(s.c_str(), s.m_clen);
 	}
 
 	string::string(string&& s) noexcept
 	{
-		str = s.str;
-		clen = s.clen;
-		s.str = nullptr;
+		m_str = s.m_str;
+		m_clen = s.m_clen;
+		s.m_str = nullptr;
 	}
 
 	string::string(const char* cs)
 	{
-		copy(cs, sbr::strlen(cs) + 1);
+		reallocAndCopy(cs, sbr::strlen(cs) + 1);
 	}
 
 	string::string(const char c)
 	{
-		str = new_realloc(str, 2);
-		str[0] = c;
-		str[1] = '\0';
-		clen = 2;
+		m_str = new_realloc(m_str, 2);
+		m_str[0] = c;
+		m_str[1] = '\0';
+		m_clen = 2;
 	}
 
 	string& string::operator=(const string& s)
 	{
 		if (this == &s)
 			return *this;
-		std::free(str);
-		str = nullptr;
-		copy(s.c_str(), s.clen);
+		std::free(m_str);
+		m_str = nullptr;
+		reallocAndCopy(s.c_str(), s.m_clen);
 		return *this;
 	}
 
@@ -49,18 +49,18 @@ namespace sbr
 	{
 		if (this == &s)
 			return *this;
-		std::free(str);
-		str = s.str;
-		clen = s.clen;
-		s.str = nullptr;
+		std::free(m_str);
+		m_str = s.m_str;
+		m_clen = s.m_clen;
+		s.m_str = nullptr;
 		return *this;
 	}
 
 	const char& string::operator[](std::size_t position) const
 	{
-		if (position >= clen || position < 0)
+		if (position >= m_clen || position < 0)
 			throw std::out_of_range("Out of bounds of an array");
-		return str[position];
+		return m_str[position];
 	}
 
 	char& string::operator[](std::size_t position)
@@ -70,39 +70,18 @@ namespace sbr
 
 	string string::operator+=(const string& rs)
 	{
-		auto newLen = clen + rs.length();
-		str = new_realloc(str, newLen);
-		clen = newLen;
-		sbr::strcat(str, rs.str);
+		auto newLen = m_clen + rs.length();
+		m_str = new_realloc(m_str, newLen);
+		m_clen = newLen;
+		sbr::strcat(m_str, rs.m_str);
 		return *this;
 	}
 
-	bool operator==(const sbr::string& ls, const sbr::string& rs)
+	void string::reallocAndCopy(const char* s, size_t len)
 	{
-		if (ls.clen != rs.clen)
-			return false;
-		return sbr::strcmp(ls.str, rs.str) == 0;
-	}
-
-	bool operator>(const sbr::string& ls, const sbr::string& rs)
-	{
-		if (ls.clen > rs.clen)
-			return true;
-		return sbr::strcmp(ls.str, rs.str) > 0;
-	}
-
-	bool operator<(const sbr::string& ls, const sbr::string& rs)
-	{
-		if (ls.clen < rs.clen)
-			return true;
-		return sbr::strcmp(ls.str, rs.str) < 0;
-	}
-
-	void string::copy(const char* s, size_t len)
-	{
-		str = new_realloc(str, len);
-		clen = len;
-		sbr::strcpy(str, s);
+		m_str = new_realloc(m_str, len);
+		m_clen = len;
+		sbr::strcpy(m_str, s);
 	}
 
 	char* string::new_realloc(void* mem, std::size_t size)
@@ -124,16 +103,44 @@ namespace sbr
 		}
 	}
 
-	std::ostream& operator<<(std::ostream& os, const sbr::string& s)
-	{
-		os << s.c_str();
-		return os;
-	}
-
 	sbr::string operator+(const sbr::string& ls, const sbr::string& rs)
 	{
 		sbr::string res(ls);
 		res += rs;
 		return string(std::move(res));
 	}
+
+	std::ostream& operator<<(std::ostream& os, const sbr::string& s)
+	{
+		os << s.c_str();
+		return os;
+	}
+
+	inline bool operator==(const sbr::string& ls, const sbr::string& rs)
+	{
+		if (ls.length() != rs.length())
+			return false;
+		return sbr::strcmp(ls.c_str(), rs.c_str()) == 0;
+	}
+
+	inline bool operator>(const sbr::string& ls, const sbr::string& rs)
+	{
+		if (ls.length() > rs.length())
+			return true;
+		return sbr::strcmp(ls.c_str(), rs.c_str()) > 0;
+	}
+
+	inline bool operator<(const sbr::string& ls, const sbr::string& rs)
+	{
+		if (ls.length() < rs.length())
+			return true;
+		return sbr::strcmp(ls.c_str(), rs.c_str()) < 0;
+	}
+
+	inline bool operator!=(const sbr::string& ls, const sbr::string& rs) { return !(ls == rs); }
+
+	inline bool operator>=(const sbr::string& ls, const sbr::string& rs) { return  (ls == rs) || (ls > rs); }
+
+	inline bool operator<=(const sbr::string& ls, const sbr::string& rs) { return  (ls == rs) || (ls < rs); }
+
 }
