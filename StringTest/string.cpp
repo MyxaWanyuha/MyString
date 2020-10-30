@@ -69,6 +69,12 @@ namespace sbr
 		return const_cast<char&>(static_cast<const string&>(*this)[position]);
 	}
 
+	void string::swap(string& rs) noexcept
+	{
+		std::swap(m_str, rs.m_str);
+		std::swap(m_clen, rs.m_clen);
+	}
+
 	string string::operator+=(const string& rs)
 	{
 		auto newLen = m_clen + rs.length();
@@ -117,31 +123,26 @@ namespace sbr
 		return os;
 	}
 
-	inline bool operator==(const sbr::string& ls, const sbr::string& rs)
+	bool operator==(const sbr::string& ls, const sbr::string& rs)
 	{
 		if (ls.length() != rs.length())
 			return false;
 		return sbr::strcmp(ls.c_str(), rs.c_str()) == 0;
 	}
 
-	inline bool operator>(const sbr::string& ls, const sbr::string& rs)
+	bool operator>(const sbr::string& ls, const sbr::string& rs)
 	{
-		if (ls.length() > rs.length())
-			return true;
 		return sbr::strcmp(ls.c_str(), rs.c_str()) > 0;
 	}
 
-	inline bool operator<(const sbr::string& ls, const sbr::string& rs)
+	bool operator<(const sbr::string& ls, const sbr::string& rs)
 	{
-		if (ls.length() < rs.length())
-			return true;
 		return sbr::strcmp(ls.c_str(), rs.c_str()) < 0;
 	}
 
-	inline bool operator!=(const sbr::string& ls, const sbr::string& rs) { return !(ls == rs); }
+	bool operator!=(const sbr::string& ls, const sbr::string& rs) { return !(ls == rs); }
 
-	inline bool operator>=(const sbr::string& ls, const sbr::string& rs) { return  (ls == rs) || (ls > rs); }
+	bool operator>=(const sbr::string& ls, const sbr::string& rs) { return  (ls == rs) || (ls > rs); }
 
-	inline bool operator<=(const sbr::string& ls, const sbr::string& rs) { return  (ls == rs) || (ls < rs); }
-
+	bool operator<=(const sbr::string& ls, const sbr::string& rs) { return  (ls == rs) || (ls < rs); }
 }

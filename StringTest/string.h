@@ -23,6 +23,8 @@ namespace sbr
 
 		int length() const noexcept { return m_clen - 1; }
 
+		void swap(string& rs) noexcept;
+
 		string operator+=(const string& rs);
 
 		string& operator=(const string& s);
@@ -42,15 +44,15 @@ namespace sbr
 		//string length + 0 terminator
 		std::size_t m_clen = 0;
 	};
-	
+
 	std::ostream& operator<<(std::ostream& os, const string& s);
 	string operator+(const string& ls, const string& rs);
-	extern bool operator==(const sbr::string& ls, const sbr::string& rs);
-	extern bool operator>(const sbr::string& ls, const sbr::string& rs);
-	extern bool operator<(const sbr::string& ls, const sbr::string& rs);
-	extern bool operator!=(const sbr::string& ls, const sbr::string& rs);
-	extern bool operator>=(const sbr::string& ls, const sbr::string& rs);
-	extern bool operator<=(const sbr::string& ls, const sbr::string& rs);
+	bool operator==(const sbr::string& ls, const sbr::string& rs);
+	bool operator>(const sbr::string& ls, const sbr::string& rs);
+	bool operator<(const sbr::string& ls, const sbr::string& rs);
+	bool operator!=(const sbr::string& ls, const sbr::string& rs);
+	bool operator>=(const sbr::string& ls, const sbr::string& rs);
+	bool operator<=(const sbr::string& ls, const sbr::string& rs);
 }
 
 
