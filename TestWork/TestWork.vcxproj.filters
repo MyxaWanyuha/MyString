@@ -29,6 +29,9 @@
     <ClInclude Include="cstrfunctions.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="MemLeakTest.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

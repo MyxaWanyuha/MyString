@@ -7,7 +7,7 @@ namespace sbr
 {
 	string::string() : m_clen(1)
 	{
-		m_str = new_realloc(nullptr, 1);
+		m_str = newRealloc(nullptr, 1);
 		m_str[0] = '\0';
 	}
 
@@ -30,7 +30,7 @@ namespace sbr
 
 	string::string(const char c)
 	{
-		m_str = new_realloc(m_str, 2);
+		m_str = newRealloc(m_str, 2);
 		m_str[0] = c;
 		m_str[1] = '\0';
 		m_clen = 2;
@@ -72,7 +72,7 @@ namespace sbr
 	string string::operator+=(const string& rs)
 	{
 		auto newLen = m_clen + rs.length();
-		m_str = new_realloc(m_str, newLen);
+		m_str = newRealloc(m_str, newLen);
 		m_clen = newLen;
 		sbr::strcat(m_str, rs.m_str);
 		return *this;
@@ -80,12 +80,12 @@ namespace sbr
 
 	void string::reallocAndCopy(const char* s, size_t len)
 	{
-		m_str = new_realloc(m_str, len);
+		m_str = newRealloc(m_str, len);
 		m_clen = len;
 		sbr::strcpy(m_str, s);
 	}
 
-	char* string::new_realloc(void* mem, std::size_t size)
+	char* string::newRealloc(void* mem, std::size_t size)
 	{
 		if (size == 0)
 			size = 1;

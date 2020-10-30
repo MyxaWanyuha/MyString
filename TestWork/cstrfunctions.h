@@ -12,12 +12,12 @@ namespace sbr
         return *(const unsigned char*)s1 - *(const unsigned char*)s2;
     }
 
-    void strcpy(char* dest, const char* src)
+    void strcpy(char* dest, const char* src) noexcept
     {
         while ((*dest++ = *src++));
     }
 
-    char* strcat(char* dest, const char* src)
+    char* strcat(char* dest, const char* src) noexcept
     {
         char* rdest = dest;
         while (*dest)
@@ -26,7 +26,7 @@ namespace sbr
         return rdest;
     }
 
-    size_t strlen(const char* str)
+    size_t strlen(const char* str) noexcept
     {
         const char* s;
         for (s = str; *s; ++s);

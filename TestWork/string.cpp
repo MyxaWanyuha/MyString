@@ -6,7 +6,7 @@ namespace sbr
 {
 	string::string() : m_clen(1)
 	{
-		m_str = new_realloc(nullptr, 1);
+		m_str = newRealloc(nullptr, 1);
 		m_str[0] = '\0';
 	}
 
@@ -29,7 +29,7 @@ namespace sbr
 
 	string::string(const char c)
 	{
-		m_str = new_realloc(m_str, 2);
+		m_str = newRealloc(m_str, 2);
 		m_str[0] = c;
 		m_str[1] = '\0';
 		m_clen = 2;
@@ -68,10 +68,16 @@ namespace sbr
 		return const_cast<char&>(static_cast<const string&>(*this)[position]);
 	}
 
+	void string::swap(string& rs) noexcept
+	{
+		std::swap(m_str, rs.m_str);
+		std::swap(m_clen, rs.m_clen);
+	}
+
 	string string::operator+=(const string& rs)
 	{
 		auto newLen = m_clen + rs.length();
-		m_str = new_realloc(m_str, newLen);
+		m_str = newRealloc(m_str, newLen);
 		m_clen = newLen;
 		sbr::strcat(m_str, rs.m_str);
 		return *this;
@@ -79,12 +85,12 @@ namespace sbr
 
 	void string::reallocAndCopy(const char* s, size_t len)
 	{
-		m_str = new_realloc(m_str, len);
+		m_str = newRealloc(m_str, len);
 		m_clen = len;
 		sbr::strcpy(m_str, s);
 	}
 
-	char* string::new_realloc(void* mem, std::size_t size)
+	char* string::newRealloc(void* mem, std::size_t size)
 	{
 		if (size == 0)
 			size = 1;
@@ -116,31 +122,26 @@ namespace sbr
 		return os;
 	}
 
-	inline bool operator==(const sbr::string& ls, const sbr::string& rs)
+	bool operator==(const sbr::string& ls, const sbr::string& rs)
 	{
 		if (ls.length() != rs.length())
 			return false;
 		return sbr::strcmp(ls.c_str(), rs.c_str()) == 0;
 	}
 
-	inline bool operator>(const sbr::string& ls, const sbr::string& rs)
+	bool operator>(const sbr::string& ls, const sbr::string& rs)
 	{
-		if (ls.length() > rs.length())
-			return true;
 		return sbr::strcmp(ls.c_str(), rs.c_str()) > 0;
 	}
 
-	inline bool operator<(const sbr::string& ls, const sbr::string& rs)
+	bool operator<(const sbr::string& ls, const sbr::string& rs)
 	{
-		if (ls.length() < rs.length())
-			return true;
 		return sbr::strcmp(ls.c_str(), rs.c_str()) < 0;
 	}
 
-	inline bool operator!=(const sbr::string& ls, const sbr::string& rs) { return !(ls == rs); }
+	bool operator!=(const sbr::string& ls, const sbr::string& rs) { return !(ls == rs); }
 
-	inline bool operator>=(const sbr::string& ls, const sbr::string& rs) { return  (ls == rs) || (ls > rs); }
+	bool operator>=(const sbr::string& ls, const sbr::string& rs) { return  (ls == rs) || (ls > rs); }
 
-	inline bool operator<=(const sbr::string& ls, const sbr::string& rs) { return  (ls == rs) || (ls < rs); }
-
+	bool operator<=(const sbr::string& ls, const sbr::string& rs) { return  (ls == rs) || (ls < rs); }
 }

@@ -35,7 +35,7 @@ namespace sbr
 	private:
 		//Create new buffer and copy s to buffer
 		void reallocAndCopy(const char* s, std::size_t len);
-		static char* new_realloc(void* mem, std::size_t size);
+		static char* newRealloc(void* mem, std::size_t size);
 		
 		//c-string
 		char* m_str = nullptr;
