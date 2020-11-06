@@ -1,5 +1,6 @@
 #pragma once
 #include <ostream>
+#include "Iterator.h"
 
 namespace sbr
 {
@@ -19,9 +20,21 @@ namespace sbr
 
 		~string() { free(m_str); };
 
+		Iterator<char> begin() const { return Iterator<char>(&m_str[0]); }
+		Iterator<char> end() const { return Iterator<char>(&m_str[m_clen]); }
+
+		Iterator<const char> cbegin() const { return Iterator<const char>(&m_str[0]); }
+		Iterator<const char> cend() const { return Iterator<const char>(&m_str[m_clen]); }
+
+		ReverseIterator<char> rbegin() const { return ReverseIterator<char>(&m_str[m_clen - 1]); }
+		ReverseIterator<char> rend() const { return ReverseIterator<char>(&m_str[-1]); }
+
+		ReverseIterator<const char> crbegin() const { return ReverseIterator<const char>(&m_str[m_clen - 1]); }
+		ReverseIterator<const char> crend() const { return ReverseIterator<const char>(&m_str[-1]); }
+
 		const char* c_str() const noexcept { return m_str; };
 
-		int length() const noexcept { return m_clen - 1; }
+		std::size_t length() const noexcept { return m_clen - 1; }
 
 		void swap(string& rs) noexcept;
 
