@@ -14,19 +14,19 @@ namespace sbr
 		{
 		public:
 			///
-			iterator( char* ptr ) : ptr( ptr )							{	}
+			iterator( char* ptr ) : ptr( ptr )						{	}
 
 			///
 			iterator	operator++();
 			iterator	operator++( int i );
 
 			///
-			char&		operator*()										{	return *ptr;						}
-			char*		operator->()									{	return ptr;							}
+			char&		operator*()									{	return *ptr;						}
+			char*		operator->()								{	return ptr;							}
 
 			///
-			bool		operator==( const iterator& rhs )				{	return ptr == rhs.ptr;				}
-			bool		operator!=( const iterator& rhs )				{	return ptr != rhs.ptr;				}
+			bool		operator==( const iterator& rhs )			{	return ptr == rhs.ptr;				}
+			bool		operator!=( const iterator& rhs )			{	return ptr != rhs.ptr;				}
 		private:
 			char* ptr;
 		};
@@ -36,19 +36,19 @@ namespace sbr
 		{
 		public:
 			///
-			const_iterator( char* ptr ) : ptr( ptr )						{	}
+			const_iterator( char* ptr ) : ptr( ptr )				{	}
 			
 			///
 			const_iterator	operator++();
 			const_iterator	operator++( int i );
 
 			///
-			const char&		operator*()									{	return *ptr;						}
-			const char*		operator->()								{	return ptr;							}
+			const char&		operator*()								{	return *ptr;						}
+			const char*		operator->()							{	return ptr;							}
 
 			///
-			bool			operator==( const const_iterator& rhs )		{	return ptr == rhs.ptr;				}
-			bool			operator!=( const const_iterator& rhs )		{	return ptr != rhs.ptr;				}
+			bool			operator==( const const_iterator& rhs )	{	return ptr == rhs.ptr;				}
+			bool			operator!=( const const_iterator& rhs )	{	return ptr != rhs.ptr;				}
 		private:
 			char* ptr;
 		};
@@ -59,7 +59,7 @@ namespace sbr
 		string( string&& s ) noexcept;
 		string( const char* cs );
 		string( const char c );
-		~string()														{	free( m_str );				};
+		~string()													{	free( m_str );				}
 
 		///
 		iterator		begin() const;
@@ -68,8 +68,8 @@ namespace sbr
 		const_iterator	cend() const;
 		
 		///
-		const char*		c_str() const noexcept								{	return m_str;				}
-		std::size_t		length() const noexcept								{	return m_clen - 1;			}
+		const char*		c_str() const noexcept						{	return m_str;				}
+		std::size_t		length() const noexcept						{	return m_clen - 1;			}
 
 		///
 		void			swap( string& rs ) noexcept;
