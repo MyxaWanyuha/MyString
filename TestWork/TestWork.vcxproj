@@ -145,7 +145,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cstrfunctions.h" />
-    <ClInclude Include="MemLeakTest.h" />
     <ClInclude Include="string.h" />
   </ItemGroup>
   <ItemGroup>

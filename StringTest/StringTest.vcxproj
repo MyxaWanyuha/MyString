@@ -33,6 +33,7 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <ItemGroup>
+    <ClInclude Include="..\TestWork\MemLeakTest.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="string.h" />
   </ItemGroup>
