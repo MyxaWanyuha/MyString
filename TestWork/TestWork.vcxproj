@@ -139,14 +139,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="rawIterator.cpp" />
+    <ClCompile Include="cstrfuncctions.cpp" />
     <ClCompile Include="string.cpp" />
     <ClCompile Include="TestWork.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cstrfunctions.h" />
     <ClInclude Include="MemLeakTest.h" />
-    <ClInclude Include="Iterator.h" />
     <ClInclude Include="string.h" />
   </ItemGroup>
   <ItemGroup>

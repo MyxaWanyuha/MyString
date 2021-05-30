@@ -21,7 +21,7 @@
     <ClCompile Include="string.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="rawIterator.cpp">
+    <ClCompile Include="cstrfuncctions.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -29,13 +29,10 @@
     <ClInclude Include="string.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="cstrfunctions.h">
-      <Filter>Исходные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="MemLeakTest.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Iterator.h">
+    <ClInclude Include="cstrfunctions.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
