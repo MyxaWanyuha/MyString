@@ -81,6 +81,16 @@ TEST(Operators, OperatorPlus)
 	EXPECT_TRUE(s3 == cs3);
 }
 
+TEST(Operators, OperatorPlus2)
+{
+	sbr::string s4("long string 123");
+	const char cs4[] = "long string 123long string 123";
+	s4 += s4;
+	EXPECT_EQ(s4.length(), strlen(cs4));
+	EXPECT_EQ(strlen(s4.c_str()), strlen(cs4));
+	EXPECT_TRUE(s4 == cs4);
+}
+
 TEST(Operators, OperatorPlusAssignChar)
 {
 	sbr::string s('s');

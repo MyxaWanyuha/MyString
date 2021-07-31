@@ -123,7 +123,7 @@ void string::swap(string& rs) noexcept
 
 
 //
-string string::operator+=(const string& rs)
+string string::operator+=( string rs)
 {
 	std::size_t newLen = m_clen + rs.length();
 	m_str = reallocation(m_str, newLen);

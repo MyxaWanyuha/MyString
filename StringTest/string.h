@@ -75,7 +75,7 @@ namespace sbr
 		void			swap(string& rs) noexcept;
 
 		///
-		string			operator+=(const string& rs);
+		string			operator+=( string rs);
 		string& operator=(const string& s);
 		string& operator=(string&& s) noexcept;
 
