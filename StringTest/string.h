@@ -59,11 +59,11 @@ namespace sbr
 		string(string&& s) noexcept;
 		string(const char* cs);
 		string(const char c);
-		~string() { free(m_str); };
+		~string() { free(m_str); }
 
 		///
-		iterator		begin() const;
-		iterator		end() const;
+		iterator		begin();
+		iterator		end();
 		const_iterator	cbegin() const;
 		const_iterator	cend() const;
 
@@ -75,7 +75,7 @@ namespace sbr
 		void			swap(string& rs) noexcept;
 
 		///
-		string			operator+=( string rs);
+		string& operator+=(const string& rs);
 		string& operator=(const string& s);
 		string& operator=(string&& s) noexcept;
 
@@ -89,6 +89,9 @@ namespace sbr
 
 		///
 		static char* reallocation(void* mem, std::size_t size);
+
+		///
+		string& append(const string& s);
 
 		/// c-string
 		char* m_str = nullptr;

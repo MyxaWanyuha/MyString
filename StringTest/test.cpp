@@ -225,3 +225,40 @@ TEST(OperatorsComparers, LessEquals)
 	EXPECT_FALSE(s1 <= cs);
 	EXPECT_TRUE(cs <= s1);
 }
+
+TEST(Iterators, CBeginCEndAndBeginEnd)
+{
+	sbr::string s{ "1234567890" };
+	EXPECT_TRUE(*s.cbegin() == *s.begin());
+	EXPECT_TRUE(*s.cend() == *s.end());
+	
+	s += s;
+	EXPECT_TRUE(*s.cbegin() == *s.begin());
+	EXPECT_TRUE(*s.cend() == *s.end());
+
+	s = s + "a";
+	EXPECT_TRUE(*s.cbegin() == *s.begin());
+	EXPECT_TRUE(*s.cend() == *s.end());
+
+	s = s + 'b';
+	EXPECT_TRUE(*s.cbegin() == *s.begin());
+	EXPECT_TRUE(*s.cend() == *s.end());
+
+	auto it = s.begin();
+	for (auto cit = s.cbegin(); cit != s.cend(); ++cit, ++it)
+		EXPECT_TRUE(*it == *cit);
+
+	sbr::string sCopy;
+	for (const auto& e : s)
+		sCopy += e;
+	{
+		auto sCopyIt = sCopy.begin();
+		for (auto cit = s.cbegin(); cit != s.cend(); ++cit, ++sCopyIt)
+			EXPECT_TRUE(*sCopyIt == *cit);
+	}
+	
+	sbr::string s2("abcdefg");
+	*s2.begin() = '1';
+	EXPECT_TRUE(*s2.cbegin() == *s2.begin());
+	EXPECT_TRUE(*s2.cend() == *s2.end());
+}

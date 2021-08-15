@@ -8,8 +8,8 @@
 sbr::string toLower( const sbr::string& s )
 {
 	sbr::string res{ s };
-	for ( size_t i = 0; i < res.length(); ++i )
-		res[ i ] = tolower( res[ i ] );
+	for ( auto& e : res )
+		e = tolower(e);
 	return res;
 }
 
@@ -17,29 +17,40 @@ sbr::string toLower( const sbr::string& s )
 //
 int main()
 {
-	std::ifstream ifs( "test.txt" );
-	if ( !ifs.is_open() )
+	try
 	{
-		std::cerr << "File not open\n";
-		return 1;
-	}
-
-	std::string s;
-	std::list< sbr::string > container;
-	while ( ifs >> s )
-		container.push_back( s.c_str() );
-	ifs.close();
-
-	container.sort( 
-		[]( const sbr::string& lv, const sbr::string& rv )
+		std::ifstream ifs( "test.txt" );
+		if ( !ifs.is_open() )
 		{
-			sbr::string lvc( std::move( toLower( lv ) ) );
-			sbr::string rvc( std::move( toLower( rv ) ) );
-			return lvc > rvc;
-		} );
+			std::cerr << "File not open\n";
+			return 1;
+		}
 
-	for ( sbr::string& e : container )
-		std::cout << e << '\n';
+		std::string s;
+		std::list< sbr::string > container;
+		while ( ifs >> s )
+			container.push_back( s.c_str() );
+		ifs.close();
 
+		container.sort( 
+			[]( const sbr::string& lv, const sbr::string& rv )
+			{
+				sbr::string lvc( toLower( lv ) );
+				sbr::string rvc( toLower( rv ) );
+				return lvc > rvc;
+			} );
+
+		for ( sbr::string& e : container )
+			std::cout << e << '\n';
+	}
+	catch (const std::exception& e)
+	{
+		std::cerr << e.what();
+		return 2;
+	}
+	catch (...)
+	{
+		return 3;
+	}
     return 0;
 }

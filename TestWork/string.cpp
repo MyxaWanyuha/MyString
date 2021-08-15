@@ -45,14 +45,14 @@ string::string( const char c )
 	m_clen = 2;
 }
 
-string::iterator string::begin() const
+string::iterator string::begin()
 {
 	return iterator( &m_str[ 0 ] );
 }
 
 
 //
-string::iterator string::end() const
+string::iterator string::end()
 {
 	return iterator( &m_str[ m_clen ] );
 }
@@ -101,7 +101,7 @@ string& string::operator=( string&& s ) noexcept
 const char& string::operator[]( std::size_t position ) const
 {
 	if ( position >= m_clen || position < 0 )
-		throw std::out_of_range( "Out of bounds of a string" );
+		throw std::out_of_range( "Error: Out of bounds of a string" );
 	return m_str[ position ];
 }
 
@@ -122,12 +122,21 @@ void string::swap( string& rs ) noexcept
 
 
 //
-string string::operator+=( string rs )
+string& string::operator+=( const string& rs )
+{
+	if (this == &rs)
+		return append(string(*this));
+	return append(rs);
+}
+
+
+//
+string& string::append( const string& rs )
 {
 	std::size_t newLen = m_clen + rs.length();
-	m_str = reallocation( m_str, newLen );
+	m_str = reallocation(m_str, newLen);
 	m_clen = newLen;
-	sbr::strcat( m_str, rs.m_str );
+	sbr::strcat(m_str, rs.m_str);
 	return *this;
 }
 
@@ -146,18 +155,12 @@ char* string::reallocation( void* mem, std::size_t size )
 {
 	//if (size == 0) size = 1; else size = size; but faster
 	size = ( size == 0 ) + ( size != 0 ) * size;
-	char* res = nullptr;
 	while ( true )
 	{
-		if ( res = static_cast< char* >( std::realloc( mem, size ) ) )
+		char* res = nullptr;
+		if ( res = static_cast<char*>( std::realloc( mem, size ) ) )
 			return res;
-
-		std::new_handler globalHandler = std::set_new_handler( 0 );
-		std::set_new_handler( globalHandler );
-		if ( globalHandler )
-			( *globalHandler )();
-		else
-			throw std::bad_alloc();
+		throw std::bad_alloc( );
 	}
 }
 
