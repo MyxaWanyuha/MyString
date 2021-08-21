@@ -100,7 +100,7 @@ string& string::operator=( string&& s ) noexcept
 //
 const char& string::operator[]( std::size_t position ) const
 {
-	if ( position >= m_clen || position < 0 )
+	if ( position >= m_clen )
 		throw std::out_of_range( "Error: Out of bounds of a string" );
 	return m_str[ position ];
 }
@@ -166,11 +166,11 @@ char* string::reallocation( void* mem, std::size_t size )
 
 
 //
-sbr::string operator+( const sbr::string& ls, const sbr::string& rs )
+sbr::string operator+(const sbr::string& ls, const sbr::string& rs)
 {
-	sbr::string res( ls );
+	sbr::string res(ls);
 	res += rs;
-	return string( std::move( res ) );
+	return res;
 }
 
 
